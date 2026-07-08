@@ -106,4 +106,4 @@ const loginUserIntoDB = async(payload:LIuser)=>{
 export const authService = {
     createUserIntoDB,
     loginUserIntoDB,
-}
+}  
