@@ -1,0 +1,16 @@
+model Services {
+  id           String             @id @default(uuid())
+  technicianId String
+  technician   TechnicianProfiles @relation(fields: [technicianId], references: [id], onDelete: Cascade)
+  categoryId   String
+  category     Categories         @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  title        String             @db.VarChar(255)
+  description  String?            @db.VarChar(255)
+  price        Int
+  duration     Int
+  isActive     Boolean?           @default(true)
+
+  booking Bookings[]
+
+  @@map("services")
+}

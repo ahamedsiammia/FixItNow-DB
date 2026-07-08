@@ -1,10 +1,19 @@
 enum userRole {
-    USER 
-    TECHNICIAN
-    ADMIN
+  USER
+  TECHNICIAN
+  ADMIN
 }
 
 enum userStatus {
-    ACTIVE
-    BLOCKED
+  ACTIVE
+  BLOCKED
+}
+
+enum BookingStatus {
+  REQUESTED
+  ACCEPTED
+  PAID
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
 }
