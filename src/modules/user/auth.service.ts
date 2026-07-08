@@ -5,12 +5,13 @@ import  Jwt, { SignOptions }  from "jsonwebtoken";
 import config from "../../config";
 import { userRole } from "../../../generated/prisma/enums";
 import { createToken } from "../../utils/token/jwtToken";
+import { IjwtPayload } from "../../utils/interface";
 
 
 
 const createUserIntoDB = async(payload : IUser)=>{
 
-    const {name,email,password,address,phone,profileImage}= payload;
+    const {name,email,password,address,phone,profileImage,role,status}= payload;
 
     console.log(payload);
 
@@ -31,7 +32,9 @@ const createUserIntoDB = async(payload : IUser)=>{
             password : hashedPassword,
             address,
             phone,
-            profileImage
+            profileImage,
+            role,
+            status
         },
         omit : {
             password : true
@@ -66,12 +69,12 @@ const loginUserIntoDB = async(payload:LIuser)=>{
         throw new Error(`Your Password is invalid.please provid valid password`)
     }
 
-    const jwtPayload = {
+    const jwtPayload  = {
         id : isExistUser.id,
         name : isExistUser.name ,
         email : isExistUser.email,
         role : isExistUser.role
-    }
+    } as IjwtPayload
 
 
 

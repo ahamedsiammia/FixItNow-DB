@@ -45,6 +45,7 @@ export const auth = (...requierdRole: userRole[]) => {
     }
 
     const {email,id,name,role } = verifyToken.data! 
+    
     if (!requierdRole.includes(role as userRole)) {
       return sendResponse(res, {
         success: false,
