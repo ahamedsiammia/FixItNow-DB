@@ -10,3 +10,8 @@ export interface IUser {
     status ?: userStatus
     profileImage ?: string
 }
+
+export interface LIuser{
+    email : string,
+    password :string
+}
