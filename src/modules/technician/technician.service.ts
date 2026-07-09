@@ -66,6 +66,7 @@ const updateTechnicianProfile = async(payload:UpdateTechnicianI,userId : string)
 };
 
 
+// public api function 
 
 const getAllTechnicianIntoDB = async (payload: filteringI,  options: paginationI) => {
   const {
@@ -161,6 +162,8 @@ const getAllTechnicianIntoDB = async (payload: filteringI,  options: paginationI
     data: technician,
   };
 };
+
+
 
 export const technicianService = {
     createTechnicianProfile,

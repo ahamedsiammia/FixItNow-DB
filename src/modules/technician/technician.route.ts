@@ -12,7 +12,10 @@ router.put("/profile",auth(userRole.TECHNICIAN),technicianController.updateTechn
 
 // Public api
 
-router.get("/",technicianController.getAllTechnician)
+router.get("/",technicianController.getAllTechnician);
+
+
+
 
 
 export const technicianRouter = router;  
