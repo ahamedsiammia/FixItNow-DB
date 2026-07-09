@@ -75,7 +75,33 @@ const loginUser = async(req:Request,res:Response)=>{
 }
 
 
+const getMe =async(req:Request,res:Response)=>{
+    try {
+
+        const userId = req.user?.id as string
+
+        const user = await authService.getMeIntoDB(userId);
+
+        sendResponse(res,{
+            success : true,
+            statusCode : HttpStatus.OK,
+            message : "Your profile Retrived Successfully",
+            data : user
+        })
+        
+    } catch (error : any) {
+        sendResponse(res,{
+            success : false,
+            statusCode : HttpStatus.INTERNAL_SERVER_ERROR,
+            message : error.message,
+            data : [],
+            error : {error}
+        })
+    }
+}
+
 export const authController ={
     createUser,
-    loginUser
+    loginUser,
+    getMe
 }

@@ -18,7 +18,8 @@ model User {
   reviews Reviews[]
 
   @@map("user")
-}
+}    
+
 
 
 

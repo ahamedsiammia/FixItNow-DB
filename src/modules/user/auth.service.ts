@@ -105,7 +105,22 @@ const loginUserIntoDB = async(payload:LIuser)=>{
 
 };
 
+
+const getMeIntoDB = async(userId : string)=>{
+    const user = await prisma.user.findUnique({
+        where :{
+            id : userId
+        },
+        omit :{
+            password : true
+        }
+    });
+
+    return {user}
+}
+
 export const authService = {
     createUserIntoDB,
     loginUserIntoDB,
+    getMeIntoDB
 }  
