@@ -10,6 +10,8 @@ router.post("/create-profile",auth(userRole.TECHNICIAN),technicianController.cre
 
 router.put("/profile",auth(userRole.TECHNICIAN),technicianController.updateTechnicianProfile)
 
+router.post("/services",auth(userRole.TECHNICIAN),technicianController.createService)
+
 // Public api
 
 router.get("/",technicianController.getAllTechnician);

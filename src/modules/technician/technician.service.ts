@@ -1,7 +1,7 @@
 import { Prisma } from "../../../generated/prisma/client";
 import { prisma } from "../../lib/prisma";
 import { calculatePagination } from "../../utils/pagination";
-import { filteringI, paginationI, TechnicianI, UpdateTechnicianI } from "./technician.interface";
+import { filteringI, IServices, paginationI, TechnicianI, UpdateTechnicianI } from "./technician.interface";
 
 const createTechnicianProfile =async(payload:TechnicianI,userId:string)=>{
 
@@ -192,10 +192,52 @@ const getSingleTechnician =async(id:string)=>{
 };
 
 
+// Service  create api
+const createServiceIntoDB = async(payload:IServices,userId:string)=>{
+    const {categoryId} = payload;
+
+    const isExistTechnicianProfile = await prisma.technicianProfiles.findUnique({
+        where : {
+            userId 
+        }
+    })
+
+    if(!isExistTechnicianProfile){
+        throw new Error("This Technician is not create technician profile. ")
+    }
+
+    const technician_Id = isExistTechnicianProfile?.id as string;
+
+    const isExistCategory = await prisma.categories.findUnique({
+        where : {
+            id : categoryId
+        }
+    });
+
+    if(!isExistCategory){
+        throw new Error("This categories is not exist")
+    };
+
+
+
+    const service = await prisma.services.create({
+        data : {
+            technicianId :technician_Id ,
+            ...payload
+        }
+    });
+
+    return {service}
+};
+
+
+
+
 
 export const technicianService = {
     createTechnicianProfile,
     updateTechnicianProfile,
     getAllTechnicianIntoDB,
-    getSingleTechnician
+    getSingleTechnician,
+    createServiceIntoDB
 }

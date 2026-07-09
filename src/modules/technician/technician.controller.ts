@@ -140,9 +140,38 @@ const getSingleTechnician =async(req:Request,res:Response)=>{
     }
 }
 
+
+const createService = async(req:Request ,res:Response)=>{
+    try {
+
+        const payload = req.body;
+
+        const userId = req.user?.id as string;
+
+        const service = await technicianService.createServiceIntoDB(payload,userId);
+
+        sendResponse(res,{
+            success : true,
+            statusCode : HttpStatus.CREATED,
+            message : "Service Create Successfully",
+            data : service
+        })
+        
+    } catch (error : any) {
+        sendResponse(res,{
+            success : false,
+            statusCode : HttpStatus.INTERNAL_SERVER_ERROR,
+            message : error.message,
+            data : [],
+            error : {error}
+        })
+    }
+};
+
 export const technicianController = {
     createTechnician,
     updateTechnicianProfile,
     getAllTechnician,
-    getSingleTechnician
+    getSingleTechnician,
+    createService
 }

@@ -35,6 +35,9 @@ const updateUserStatusIntoDB = async(id : string,payload:IUpdateUserStatus,)=>{
         },
         data :{
             status : status
+        },
+        omit : {
+            password : true
         }
     })
 

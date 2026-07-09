@@ -37,3 +37,12 @@ export interface paginationI {
   sortBy?: string;
   sortOrder?: "asc" | "desc";
 }
+
+
+export interface IServices {
+    categoryId : string
+    title : string
+    description ?: string
+    price : number
+    duration : number
+}
