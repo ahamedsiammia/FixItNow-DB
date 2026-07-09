@@ -14,6 +14,8 @@ router.put("/profile",auth(userRole.TECHNICIAN),technicianController.updateTechn
 
 router.get("/",technicianController.getAllTechnician);
 
+router.get("/:id",technicianController.getSingleTechnician)
+
 
 
 

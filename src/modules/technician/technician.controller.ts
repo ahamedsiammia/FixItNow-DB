@@ -114,8 +114,35 @@ const getAllTechnician = async(req:Request,res:Response)=>{
     }
 }
 
+
+const getSingleTechnician =async(req:Request,res:Response)=>{
+    try {
+
+        const id = req.params?.id as string;
+
+        const technician = await technicianService.getSingleTechnician(id);
+
+        sendResponse(res,{
+            success : true,
+            statusCode : HttpStatus.OK,
+            message : "Technician profile Retrivied Successfully",
+            data : technician
+        })
+        
+    } catch (error : any) {
+        sendResponse(res,{
+            success : false,
+            statusCode : HttpStatus.INTERNAL_SERVER_ERROR,
+            message : error.message,
+            data : [],
+            error : {error}
+        })
+    }
+}
+
 export const technicianController = {
     createTechnician,
     updateTechnicianProfile,
-    getAllTechnician
+    getAllTechnician,
+    getSingleTechnician
 }

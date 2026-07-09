@@ -164,9 +164,38 @@ const getAllTechnicianIntoDB = async (payload: filteringI,  options: paginationI
 };
 
 
+const getSingleTechnician =async(id:string)=>{
+    const technician= await prisma.technicianProfiles.findUnique({
+        where:{
+            id
+        }
+    });
+
+    if(!technician){
+        throw new Error("this Technician is not exist!")
+    };
+
+    const technician_Id = technician.id as string
+
+    const reviews = await prisma.reviews.findMany({
+        where : {
+            technicianId : technician_Id
+        }
+    });
+
+    return {
+        technician,
+        reviews
+    }
+
+
+};
+
+
 
 export const technicianService = {
     createTechnicianProfile,
     updateTechnicianProfile,
-    getAllTechnicianIntoDB 
+    getAllTechnicianIntoDB,
+    getSingleTechnician
 }
