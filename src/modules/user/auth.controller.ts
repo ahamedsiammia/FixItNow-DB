@@ -32,18 +32,35 @@ const createUser =async(req:Request,res:Response)=>{
 };
 
 
+
 const loginUser = async(req:Request,res:Response)=>{
     try {
 
         const payload = req.body;
 
-        const result = await authService.loginUserIntoDB(payload)
+        const user = await authService.loginUserIntoDB(payload)
+                const accessToken = user.accesstoken
+                const refreshToken = user.refreshtoken
+
+        res.cookie("accessToken",accessToken,{
+            httpOnly: true,
+            secure : false,
+            sameSite: "none",
+            maxAge : 1000 * 60 * 60 * 24  // 1 day or 24 hours
+        })
+
+        res.cookie("refreshToken",refreshToken,{
+            httpOnly: true,
+            secure : false,
+            sameSite: "none",
+            maxAge : 1000 * 60 * 60 * 24 * 7  // 7 day
+        })
         
         sendResponse(res,{
             success : true,
             statusCode : HttpStatus.OK,
             message : "Your login successfully",
-            data : result
+            data : user
         })
         
     } catch (error : any) {

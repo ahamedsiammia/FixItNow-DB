@@ -77,7 +77,6 @@ const loginUserIntoDB = async(payload:LIuser)=>{
     } as IjwtPayload
 
 
-
     const accessToken = await createToken(jwtPayload,config.jwt_access_secret,config.jwt_access_expires_in);
 
 

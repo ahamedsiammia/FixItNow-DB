@@ -7,4 +7,4 @@ const router = Router();
 
 router.post("/create-profile",auth(userRole.TECHNICIAN),technicianController.createTechnician)
 
-export const technicianRouter = router;
+export const technicianRouter = router;  

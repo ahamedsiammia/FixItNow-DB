@@ -32,20 +32,18 @@ export const auth = (...requierdRole: userRole[]) => {
         "Your not Logged In . Please Logged in to access to this Resource.",
       );
     }
+    const verifyToken = await varifyToken(token,config.jwt_access_secret);
 
-    const verifyToken = await varifyToken(
-      token,
-      config.jwt_access_secret as string,
-    );
-
-    // console.log(verifyToken);
+    console.log(verifyToken);
 
     if (!verifyToken.success && verifyToken.data !== undefined) {
-      throw new Error(verifyToken.message);
+        throw new Error(verifyToken.message);
     }
+    
+
 
     const {email,id,name,role } = verifyToken.data! 
-    
+
     if (!requierdRole.includes(role as userRole)) {
       return sendResponse(res, {
         success: false,
