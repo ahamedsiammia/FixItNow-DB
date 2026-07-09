@@ -9,4 +9,6 @@ router.post("/categories",auth(userRole.ADMIN),categoriesController.createCatego
 
 router.get("/categories",auth(userRole.ADMIN),categoriesController.getAllCategories);
 
+router.get("/users",auth(userRole.ADMIN),categoriesController.getAllUser)
+
 export const categoryRoute = router;

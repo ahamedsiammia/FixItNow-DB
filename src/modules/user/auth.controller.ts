@@ -100,8 +100,11 @@ const getMe =async(req:Request,res:Response)=>{
     }
 }
 
+
+
+
 export const authController ={
     createUser,
     loginUser,
-    getMe
+    getMe,
 }

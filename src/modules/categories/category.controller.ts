@@ -53,7 +53,32 @@ const getAllCategories = async(req:Request,res:Response)=>{
     }
 }
 
+
+const getAllUser = async(req:Request,res:Response)=>{
+    try {
+
+        const users = await categoriesService.getAllUserIntoDB();
+
+        sendResponse(res,{
+            success : true,
+            statusCode : HttpStatus.OK,
+            message : "User Retrived Successfully",
+            data : users
+        })
+        
+    } catch (error : any) {
+        sendResponse(res,{
+            success : false,
+            statusCode : HttpStatus.INTERNAL_SERVER_ERROR,
+            message : error.message,
+            data : [],
+            error : {error}
+        })
+    }
+}
+
 export const categoriesController = {
     createCategory,
-    getAllCategories
+    getAllCategories,
+    getAllUser
 }

@@ -21,7 +21,7 @@ app.use(cookieParser())
 
 
 
-app.use("/api/auth",authRouter)
+app.use("/api/auth",authRouter) 
 
 app.use("/api/technician",technicianRouter)
 

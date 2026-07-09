@@ -10,7 +10,7 @@ router.post("/register",authController.createUser);
 
 router.get("/login",authController.loginUser);
 
-router.get("/me",auth(userRole.ADMIN,userRole.USER,userRole.TECHNICIAN),authController.getMe)
+router.get("/me",auth(userRole.ADMIN,userRole.USER,userRole.TECHNICIAN),authController.getMe);
 
 
 export const authRouter = router;

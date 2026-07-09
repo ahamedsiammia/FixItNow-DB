@@ -19,7 +19,14 @@ const getAllCategories = async()=>{
     return {categories}
 }
 
+const getAllUserIntoDB = async()=>{
+    const users = await prisma.user.findMany();
+
+    return {users}
+}
+
 export const categoriesService ={
     createCategoryIntoDB,
-    getAllCategories
+    getAllCategories,
+    getAllUserIntoDB
 }

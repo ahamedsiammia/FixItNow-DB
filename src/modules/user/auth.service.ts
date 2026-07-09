@@ -1,9 +1,7 @@
 import bcrypt from "bcryptjs";
 import { prisma } from "../../lib/prisma";
 import { IUser, LIuser } from "./auth.interface";
-import  Jwt, { SignOptions }  from "jsonwebtoken";
 import config from "../../config";
-import { userRole } from "../../../generated/prisma/enums";
 import { createToken } from "../../utils/token/jwtToken";
 import { IjwtPayload } from "../../utils/interface";
 
@@ -119,8 +117,10 @@ const getMeIntoDB = async(userId : string)=>{
     return {user}
 }
 
+
+
 export const authService = {
     createUserIntoDB,
     loginUserIntoDB,
-    getMeIntoDB
+    getMeIntoDB,
 }  
