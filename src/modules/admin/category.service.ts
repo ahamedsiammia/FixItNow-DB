@@ -1,5 +1,5 @@
 import { prisma } from "../../lib/prisma";
-import { ICategory } from "./category.interface";
+import { ICategory, IUpdateUserStatus } from "./category.interface";
 
 const createCategoryIntoDB =async(payload:ICategory)=>{
     const createCategory = await prisma.categories.create({
@@ -25,8 +25,25 @@ const getAllUserIntoDB = async()=>{
     return {users}
 }
 
+
+const updateUserStatusIntoDB = async(id : string,payload:IUpdateUserStatus,)=>{
+    const {status} = payload;
+
+    const user = await prisma.user.update({
+        where :{
+             id
+        },
+        data :{
+            status : status
+        }
+    })
+
+    return {user}
+}
+
 export const categoriesService ={
     createCategoryIntoDB,
     getAllCategories,
-    getAllUserIntoDB
+    getAllUserIntoDB,
+    updateUserStatusIntoDB
 }

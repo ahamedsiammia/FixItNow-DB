@@ -9,6 +9,8 @@ router.post("/categories",auth(userRole.ADMIN),categoriesController.createCatego
 
 router.get("/categories",auth(userRole.ADMIN),categoriesController.getAllCategories);
 
-router.get("/users",auth(userRole.ADMIN),categoriesController.getAllUser)
+router.get("/users",auth(userRole.ADMIN),categoriesController.getAllUser);
 
-export const categoryRoute = router;
+router.patch("/users/:id",auth(userRole.ADMIN),categoriesController.updateUserStatus);
+
+export const AdminRoute = router;

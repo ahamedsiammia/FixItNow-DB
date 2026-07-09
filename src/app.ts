@@ -6,7 +6,7 @@ import config from "./config";
 import { authRouter } from "./modules/user/auth.route";
 import { technicianRouter } from "./modules/technician/technician.route";
 import { reviewsRouter } from "./modules/reviews/reviews.route";
-import { categoryRoute } from "./modules/categories/category.route";
+import { AdminRoute } from "./modules/admin/category.route";
 
 const app : Application =  express();
 
@@ -27,7 +27,7 @@ app.use("/api/technician",technicianRouter)
 
 app.use("/api/reviews",reviewsRouter)
 
-app.use("/api/admin",categoryRoute)
+app.use("/api/admin",AdminRoute)
 
 
 
