@@ -10,5 +10,9 @@ router.post("/create-profile",auth(userRole.TECHNICIAN),technicianController.cre
 
 router.put("/profile",auth(userRole.TECHNICIAN),technicianController.updateTechnicianProfile)
 
+// Public api
+
+router.get("/",technicianController.getAllTechnician)
+
 
 export const technicianRouter = router;  

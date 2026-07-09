@@ -19,3 +19,21 @@ export interface UpdateTechnicianI {
     availabilitySlots ?: string
 
 }
+
+export interface filteringI {
+    searchTerm ?: string
+    Rating ?: number
+    minPrice ?: number
+    maxPrice ?: number
+    experience ?: number
+    availabilitySlots ?: string
+
+}
+
+
+export interface paginationI {
+  page?: number;
+  limit?: number;
+  sortBy?: string;
+  sortOrder?: "asc" | "desc";
+}

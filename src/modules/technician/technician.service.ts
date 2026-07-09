@@ -1,5 +1,7 @@
+import { Prisma } from "../../../generated/prisma/client";
 import { prisma } from "../../lib/prisma";
-import { TechnicianI, UpdateTechnicianI } from "./technician.interface";
+import { calculatePagination } from "../../utils/pagination";
+import { filteringI, paginationI, TechnicianI, UpdateTechnicianI } from "./technician.interface";
 
 const createTechnicianProfile =async(payload:TechnicianI,userId:string)=>{
 
@@ -64,7 +66,104 @@ const updateTechnicianProfile = async(payload:UpdateTechnicianI,userId : string)
 };
 
 
+
+const getAllTechnicianIntoDB = async (payload: filteringI,  options: paginationI) => {
+  const {
+    searchTerm,
+    Rating,
+    minPrice,
+    maxPrice,
+    experience,
+    availabilitySlots
+  } = payload;
+
+ const { page, limit, skip, sortBy, sortOrder } = calculatePagination(options);
+
+  const andConditions: Prisma.TechnicianProfilesWhereInput[] = [];
+
+  // General search with skills 
+  if (searchTerm) {
+    andConditions.push({
+        OR:[
+            {
+                skills : {
+                    contains : searchTerm,
+                    mode : "insensitive"
+                }
+            }
+        ]
+    });
+  }
+
+  // Minimum rating filter
+  if (Rating) {
+    andConditions.push({
+      rating: { gte: Number(Rating) },
+    });
+  }
+
+  // Price range filter
+  if (minPrice || maxPrice) {
+    andConditions.push({
+      hourlyRate: {
+        ...(minPrice && { gte: Number(minPrice) }),
+        ...(maxPrice && { lte: Number(maxPrice) }),
+      },
+    });
+  }
+
+  // Experience filter
+  if (experience) {
+    andConditions.push({
+      experienceYear: { gte: Number(experience) },
+    });
+  }
+
+  if(availabilitySlots){
+    andConditions.push({
+        OR:[
+            {
+                availabilitySlots : {
+                    contains : availabilitySlots,
+                    mode : "insensitive"
+                }
+            }
+        ]
+    })
+  }
+
+
+
+  const whereConditions: Prisma.TechnicianProfilesWhereInput =
+    andConditions.length > 0 ? { AND: andConditions } : {};
+
+  const technician = await prisma.technicianProfiles.findMany({
+    where: whereConditions,
+     skip,
+    take: limit,
+    orderBy: {
+      [sortBy]: sortOrder,
+    },
+  });
+
+    const total = await prisma.technicianProfiles.count({
+    where: whereConditions,
+  });
+
+
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+      totalPage: Math.ceil(total / limit),
+    },
+    data: technician,
+  };
+};
+
 export const technicianService = {
     createTechnicianProfile,
-    updateTechnicianProfile
+    updateTechnicianProfile,
+    getAllTechnicianIntoDB 
 }

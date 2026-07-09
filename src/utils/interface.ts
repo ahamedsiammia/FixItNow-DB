@@ -15,4 +15,12 @@ export interface responseInterface {
         name : string
         email : string
         role : userRole
-    }
+}
+
+
+export interface IOptions {
+  page?: number
+  limit?: number
+  sortBy?: string
+  sortOrder?: "asc" | "desc"
+};
