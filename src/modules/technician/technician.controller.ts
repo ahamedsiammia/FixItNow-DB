@@ -39,7 +39,32 @@ console.log(payload);
     }
 };
 
+const updateTechnicianProfile =async(req:Request,res:Response)=>{
+    try {
+
+        const payload = req.body;
+        const userId = req.user?.id as string
+        const updateUser = await technicianService.updateTechnicianProfile(payload,userId);
+        
+        sendResponse(res,{
+            success : true,
+            statusCode : HttpStatus.UPGRADE_REQUIRED,
+            message :"Your profile Update successfully",
+            data : updateUser
+        })
+        
+    } catch (error : any) {
+        sendResponse(res,{
+            success : false,
+            statusCode : HttpStatus.INTERNAL_SERVER_ERROR,
+            message : error.message,
+            data : [],
+            error : {error}
+        })
+    }
+};
 
 export const technicianController = {
-    createTechnician
+    createTechnician,
+    updateTechnicianProfile
 }

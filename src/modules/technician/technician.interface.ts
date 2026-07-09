@@ -8,3 +8,14 @@ export interface TechnicianI {
     availabilitySlots : string
 
 }
+
+export interface UpdateTechnicianI {
+    bio ?: string
+    experienceYear ?: number
+    skills ?: string
+    hourlyRate ?: number
+    rating ?: number
+    totalReviews ?: number
+    availabilitySlots ?: string
+
+}

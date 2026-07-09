@@ -6,7 +6,7 @@ model TechnicianProfiles {
   skills            String  @db.VarChar()
   experienceYear    Int
   hourlyRate        Int
-  rating            Decimal
+  rating            Int
   totalReviews      Int
   availabilitySlots String  @db.VarChar(255)
   isVerified        Boolean @default(true)

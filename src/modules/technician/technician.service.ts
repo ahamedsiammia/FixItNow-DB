@@ -1,5 +1,5 @@
 import { prisma } from "../../lib/prisma";
-import { TechnicianI } from "./technician.interface";
+import { TechnicianI, UpdateTechnicianI } from "./technician.interface";
 
 const createTechnicianProfile =async(payload:TechnicianI,userId:string)=>{
 
@@ -36,7 +36,35 @@ const createTechnicianProfile =async(payload:TechnicianI,userId:string)=>{
     }
 };
 
+const updateTechnicianProfile = async(payload:UpdateTechnicianI,userId : string)=>{
+
+    const isExistProfile = await prisma.technicianProfiles.findUnique({
+        where : {
+             userId
+        }
+    });
+
+    if(!isExistProfile){
+        throw new Error("Your Profile Not Exist.Please Create Your Profile")
+    };
+
+    const updateProfile = await prisma.technicianProfiles.update({
+        where : {
+             userId
+        },
+        data : {
+            ...payload
+        }
+    });
+
+    return {
+        updateProfile
+    }
+
+};
+
 
 export const technicianService = {
-    createTechnicianProfile
+    createTechnicianProfile,
+    updateTechnicianProfile
 }
