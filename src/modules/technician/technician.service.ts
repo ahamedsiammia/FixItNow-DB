@@ -1,7 +1,7 @@
 import { Prisma } from "../../../generated/prisma/client";
 import { prisma } from "../../lib/prisma";
 import { calculatePagination } from "../../utils/pagination";
-import { filteringI, IServices, paginationI, TechnicianI, UpdateTechnicianI } from "./technician.interface";
+import { BookingStatusI, filteringI, IServices, paginationI, TechnicianI, UpdateTechnicianI } from "./technician.interface";
 
 const createTechnicianProfile =async(payload:TechnicianI,userId:string)=>{
 
@@ -252,7 +252,42 @@ const getBookingsIntoDB = async(userId:string)=>{
     return {bookings}
 }
 
+const updateBookingStatusIntoDB = async (payload: BookingStatusI,bookingId: string,userId: string)=>{
+  
+    const {status} = payload;
 
+  const booking = await prisma.bookings.findUnique({
+    where: { id: bookingId },
+  });
+
+  if (!booking) {
+    throw new Error("This Booking does not Exist");
+  }
+
+  // check technician is exist 
+  const technician = await prisma.technicianProfiles.findUnique({
+    where: { userId: userId },
+  });
+
+  if (!technician) {
+    throw new Error("You are technician profile is  not a exist ");
+  }
+
+  // check booking technician id === login kora technician id true hoi naki 
+  if (booking.technicianId !== technician.id) {
+    throw new Error("You are not authorized to update this booking");
+  }
+
+  // update status
+  const updatedBooking = await prisma.bookings.update({
+    where: { id: bookingId },
+    data: {
+      stats : status
+    },
+  });
+
+  return {updatedBooking};
+};
 
 export const technicianService = {
     createTechnicianProfile,
@@ -260,5 +295,6 @@ export const technicianService = {
     getAllTechnicianIntoDB,
     getSingleTechnician,
     createServiceIntoDB,
-    getBookingsIntoDB
+    getBookingsIntoDB,
+    updateBookingStatusIntoDB
 }

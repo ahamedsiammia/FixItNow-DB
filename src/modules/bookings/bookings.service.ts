@@ -1,5 +1,5 @@
 import { prisma } from "../../lib/prisma";
-import { IBooking } from "./bookings.interface";
+import { authI, IBooking } from "./bookings.interface";
 
 const createBookingIntoDB = async(payload:IBooking,customerId : string)=>{
     const {notes,scheduledDate,serviceId,technicianId}= payload;
@@ -54,7 +54,7 @@ const getBookingWithUser =async(customerId : string)=>{
 
 
 
-const getBookingDetails = async (bookingId: string,authUser : any) => {
+const getBookingDetails = async (bookingId: string,authUser : authI) => {
     
   const booking = await prisma.bookings.findUnique({
     where: { id: bookingId },

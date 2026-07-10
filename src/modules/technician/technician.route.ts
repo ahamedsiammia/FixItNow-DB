@@ -14,6 +14,8 @@ router.post("/services",auth(userRole.TECHNICIAN),technicianController.createSer
 
 router.get("/bookings",auth(userRole.TECHNICIAN),technicianController.getBookings)
 
+router.patch("/bookings/:id",auth(userRole.TECHNICIAN),technicianController.updateBookingStatus)
+
 // Public api
 
 router.get("/",technicianController.getAllTechnician);

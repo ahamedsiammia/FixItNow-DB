@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { sendResponse } from "../../utils/sendResponse";
 import  HttpStatus  from "http-status";
 import { bookingsService } from "./bookings.service";
+import { authI } from "./bookings.interface";
 
 const createBooking = async(req:Request,res:Response)=>{
     try {
@@ -61,7 +62,7 @@ const getBookingDetails =async(req:Request,res:Response)=>{
 
         const bookingId = req.params?.id as string;
 
-        const authUser = req.user
+        const authUser = req.user as authI;
 
         const bookingDetails = await bookingsService.getBookingDetails(bookingId,authUser);
 

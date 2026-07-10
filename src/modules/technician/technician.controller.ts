@@ -194,11 +194,39 @@ const getBookings =async(req:Request,res:Response)=>{
     }
 }
 
+const updateBookingStatus =async(req:Request,res:Response)=>{
+    try {
+
+        const payload = req.body;
+        const bookingId = req.params?.id as string;
+        const userId = req.user?.id as string;
+
+        const updateBooking = await technicianService.updateBookingStatusIntoDB(payload,bookingId,userId)
+        
+          sendResponse(res, {
+             success: true,
+             statusCode: HttpStatus.OK,
+             message: "Booking status updated successfully",
+             data: updateBooking,
+         });
+
+    } catch (error : any) {
+        sendResponse(res,{
+            success : false,
+            statusCode : HttpStatus.INTERNAL_SERVER_ERROR,
+            message : error.message,
+            data : [],
+            error : {error}
+        })
+    }
+}
+
 export const technicianController = {
     createTechnician,
     updateTechnicianProfile,
     getAllTechnician,
     getSingleTechnician,
     createService,
-    getBookings
+    getBookings,
+    updateBookingStatus
 }
