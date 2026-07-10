@@ -44,9 +44,17 @@ const updateUserStatusIntoDB = async(id : string,payload:IUpdateUserStatus,)=>{
     return {user}
 }
 
+
+const getAllBookings = async()=>{
+    const bookings = await prisma.bookings.findMany();
+
+    return {bookings}
+}
+
 export const adminService ={
     createCategoryIntoDB,
     getAllCategories,
     getAllUserIntoDB,
-    updateUserStatusIntoDB
+    updateUserStatusIntoDB,
+    getAllBookings
 }

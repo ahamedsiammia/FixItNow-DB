@@ -103,9 +103,33 @@ const updateUserStatus =async(req:Request,res:Response)=>{
     }
 }
 
+const getAllBookings = async(req:Request,res:Response)=>{
+    try {
+
+        const bookings = await adminService.getAllBookings();
+        
+        sendResponse(res,{
+            success : true,
+            statusCode : HttpStatus.OK,
+            message : "All bookings retrieved successfully",
+            data : bookings
+        })
+        
+    } catch (error : any) {
+        sendResponse(res,{
+            success : false,
+            statusCode : HttpStatus.INTERNAL_SERVER_ERROR,
+            message : error.message,
+            data : [],
+            error : {error}
+        })
+    }
+}
+
 export const adminController = {
     createCategory,
     getAllCategories,
     getAllUser,
-    updateUserStatus
+    updateUserStatus,
+    getAllBookings
 }
