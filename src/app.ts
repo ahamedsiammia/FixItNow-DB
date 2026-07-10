@@ -10,6 +10,7 @@ import { AdminRoute } from "./modules/admin/admin.route";
 import { categoriesRoute } from "./modules/categories/categories.route";
 import { servicesRouter } from "./modules/services/services.route";
 import { bookingsRouter } from "./modules/bookings/bookings.router";
+import { paymentRouter } from "./modules/payments/payment.route";
 
 const app : Application =  express();
 
@@ -36,7 +37,9 @@ app.use("/api/categories",categoriesRoute);
 
 app.use("/api/services",servicesRouter);
 
-app.use("/api/bookings",bookingsRouter)
+app.use("/api/bookings",bookingsRouter);
+
+app.use("/api/payment",paymentRouter)
 
 
 app.get("/",(req:Request,res:Response)=>{

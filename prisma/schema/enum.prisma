@@ -17,3 +17,10 @@ enum BookingStatus {
   COMPLETED
   CANCELLED
 }
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  CANCELLED
+}

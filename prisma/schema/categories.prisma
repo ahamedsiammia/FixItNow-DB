@@ -9,5 +9,3 @@ model Categories {
 
   @@map("categories")
 }
-
-

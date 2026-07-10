@@ -2,7 +2,7 @@ model TechnicianProfiles {
   id                String  @id @default(uuid())
   userId            String  @unique
   user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  bio               String?  @db.VarChar(225)
+  bio               String? @db.VarChar(225)
   skills            String  @db.VarChar()
   experienceYear    Int
   hourlyRate        Int
@@ -22,5 +22,3 @@ model TechnicianProfiles {
 
   @@map("technicianProfiles ")
 }
-
-
