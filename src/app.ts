@@ -7,6 +7,7 @@ import { authRouter } from "./modules/user/auth.route";
 import { technicianRouter } from "./modules/technician/technician.route";
 import { reviewsRouter } from "./modules/reviews/reviews.route";
 import { AdminRoute } from "./modules/admin/admin.route";
+import { categoriesRoute } from "./modules/categories/categories.route";
 
 const app : Application =  express();
 
@@ -21,15 +22,15 @@ app.use(cookieParser())
 
 
 
-app.use("/api/auth",authRouter) 
+app.use("/api/auth",authRouter);
 
-app.use("/api/technician",technicianRouter)
+app.use("/api/technician",technicianRouter);
 
-app.use("/api/reviews",reviewsRouter)
+app.use("/api/reviews",reviewsRouter);
 
-app.use("/api/admin",AdminRoute)
+app.use("/api/admin",AdminRoute);
 
-
+app.use("/api/categories",categoriesRoute)
 
 app.get("/",(req:Request,res:Response)=>{
     res.status(200).json({
