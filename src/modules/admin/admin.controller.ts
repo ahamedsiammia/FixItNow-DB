@@ -38,7 +38,7 @@ const getAllCategories = async(req:Request,res:Response)=>{
         sendResponse(res,{
             success : true,
             statusCode : HttpStatus.OK,
-            message : "category retrived successfully",
+            message : "category retrieved successfully",
             data : categories
         })
         
@@ -62,7 +62,7 @@ const getAllUser = async(req:Request,res:Response)=>{
         sendResponse(res,{
             success : true,
             statusCode : HttpStatus.OK,
-            message : "User Retrived Successfully",
+            message : "User retrieved Successfully",
             data : users
         })
         

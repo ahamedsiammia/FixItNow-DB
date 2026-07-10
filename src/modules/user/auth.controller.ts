@@ -85,7 +85,7 @@ const getMe =async(req:Request,res:Response)=>{
         sendResponse(res,{
             success : true,
             statusCode : HttpStatus.OK,
-            message : "Your profile Retrived Successfully",
+            message : "Your profile retrieved Successfully",
             data : user
         })
         

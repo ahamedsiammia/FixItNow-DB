@@ -6,9 +6,11 @@ model Services {
   category     Categories         @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   title        String             @db.VarChar(255)
   description  String?            @db.VarChar(255)
+  location     String            @db.VarChar(255) 
   price        Int
   duration     Int
   isActive     Boolean?           @default(true)
+  createdAt    DateTime           @default(now())
 
   booking Bookings[]
 

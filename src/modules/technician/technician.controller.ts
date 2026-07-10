@@ -99,7 +99,7 @@ const getAllTechnician = async(req:Request,res:Response)=>{
         sendResponse(res,{
             success:true,
             statusCode : HttpStatus.OK,
-            message :"Technician Retrivied Successfully",
+            message :"Technician retrieved Successfully",
             data : result
         })
         
@@ -125,7 +125,7 @@ const getSingleTechnician =async(req:Request,res:Response)=>{
         sendResponse(res,{
             success : true,
             statusCode : HttpStatus.OK,
-            message : "Technician profile Retrivied Successfully",
+            message : "Technician profile Retrieved Successfully",
             data : technician
         })
         

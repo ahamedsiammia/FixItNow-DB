@@ -11,7 +11,7 @@ const getAllServicesCategories =async(req:Request,res:Response)=>{
         sendResponse(res,{
             success : true,
             statusCode : HttpStatus.OK,
-            message : "Services retrived successfully",
+            message : "Services retrieved successfully",
             data : servicesCategories
         })
         
