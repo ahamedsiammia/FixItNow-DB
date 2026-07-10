@@ -12,6 +12,8 @@ router.put("/profile",auth(userRole.TECHNICIAN),technicianController.updateTechn
 
 router.post("/services",auth(userRole.TECHNICIAN),technicianController.createService)
 
+router.get("/bookings",auth(userRole.TECHNICIAN),technicianController.getBookings)
+
 // Public api
 
 router.get("/",technicianController.getAllTechnician);

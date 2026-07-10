@@ -168,10 +168,37 @@ const createService = async(req:Request ,res:Response)=>{
     }
 };
 
+
+const getBookings =async(req:Request,res:Response)=>{
+    try {
+
+        const userId = req.user?.id as string;
+
+        const technicianBookings = await technicianService.getBookingsIntoDB(userId);
+
+        sendResponse(res,{
+            success : true,
+            statusCode : HttpStatus.OK,
+            message : "Your Bookings data retrieved successfully",
+            data : technicianBookings
+        })
+        
+    } catch (error : any) {
+        sendResponse(res,{
+            success : false,
+            statusCode : HttpStatus.INTERNAL_SERVER_ERROR,
+            message : error.message,
+            data : [],
+            error : {error}
+        })
+    }
+}
+
 export const technicianController = {
     createTechnician,
     updateTechnicianProfile,
     getAllTechnician,
     getSingleTechnician,
-    createService
+    createService,
+    getBookings
 }

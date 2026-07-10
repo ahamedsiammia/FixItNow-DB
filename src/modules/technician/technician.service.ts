@@ -230,7 +230,27 @@ const createServiceIntoDB = async(payload:IServices,userId:string)=>{
     return {service}
 };
 
+const getBookingsIntoDB = async(userId:string)=>{
+    const isExistTechnician = await prisma.technicianProfiles.findUnique({
+        where :{
+            userId : userId
+        }
+    });
 
+    if(!isExistTechnician){
+        throw new Error("this technician is not exist")
+    };
+
+    const technicianId = isExistTechnician.id as string;
+
+    const bookings = await prisma.bookings.findMany({
+        where : {
+            technicianId
+        }
+    });
+
+    return {bookings}
+}
 
 
 
@@ -239,5 +259,6 @@ export const technicianService = {
     updateTechnicianProfile,
     getAllTechnicianIntoDB,
     getSingleTechnician,
-    createServiceIntoDB
+    createServiceIntoDB,
+    getBookingsIntoDB
 }
