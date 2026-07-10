@@ -6,7 +6,7 @@ import config from "./config";
 import { authRouter } from "./modules/user/auth.route";
 import { technicianRouter } from "./modules/technician/technician.route";
 import { reviewsRouter } from "./modules/reviews/reviews.route";
-import { AdminRoute } from "./modules/admin/category.route";
+import { AdminRoute } from "./modules/admin/admin.route";
 
 const app : Application =  express();
 

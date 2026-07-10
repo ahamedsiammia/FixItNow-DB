@@ -1,15 +1,15 @@
 import { Request, Response } from "express";
 import { sendResponse } from "../../utils/sendResponse";
 import  HttpStatus  from "http-status";
-import { categoriesService } from "./category.service";
-import { ICategory } from "./category.interface";
+import { adminService } from "./admin.service";
+import { ICategory } from "./admin.interface";
 
 const createCategory =async(req:Request,res:Response)=>{
     try {
 
         const payload = req.body as ICategory;
 
-        const category = await categoriesService.createCategoryIntoDB(payload);
+        const category = await adminService.createCategoryIntoDB(payload);
 
         sendResponse(res,{
             success : true,
@@ -33,7 +33,7 @@ const createCategory =async(req:Request,res:Response)=>{
 const getAllCategories = async(req:Request,res:Response)=>{
     try {
 
-        const categories = await categoriesService.getAllCategories();
+        const categories = await adminService.getAllCategories();
 
         sendResponse(res,{
             success : true,
@@ -57,7 +57,7 @@ const getAllCategories = async(req:Request,res:Response)=>{
 const getAllUser = async(req:Request,res:Response)=>{
     try {
 
-        const users = await categoriesService.getAllUserIntoDB();
+        const users = await adminService.getAllUserIntoDB();
 
         sendResponse(res,{
             success : true,
@@ -83,7 +83,7 @@ const updateUserStatus =async(req:Request,res:Response)=>{
 
         const payload = req.body;
         const id = req.params.id as string;
-        const  updateUser = await categoriesService.updateUserStatusIntoDB(id,payload);
+        const  updateUser = await adminService.updateUserStatusIntoDB(id,payload);
 
         sendResponse(res,{
             success : true,
@@ -103,7 +103,7 @@ const updateUserStatus =async(req:Request,res:Response)=>{
     }
 }
 
-export const categoriesController = {
+export const adminController = {
     createCategory,
     getAllCategories,
     getAllUser,
