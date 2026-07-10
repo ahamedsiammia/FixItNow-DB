@@ -53,7 +53,45 @@ const getBookingWithUser =async(customerId : string)=>{
 };
 
 
+
+const getBookingDetails = async (bookingId: string,authUser : any) => {
+    
+  const booking = await prisma.bookings.findUnique({
+    where: { id: bookingId },
+    include: {
+      customer: {
+        select: { id: true, name: true, email: true, phone: true },
+      },
+      technician: {
+        include: {
+          user: {
+            select: { id: true, name: true, email: true, phone: true },
+          },
+        },
+      },
+      service: true,
+    },
+  });
+
+  if (!booking) {
+    throw new Error("Booking not found");
+  }
+  const isCustomer = booking.customerId === authUser.id;
+  const isTechnician = booking.technician?.userId === authUser.id;
+  const isAdmin = authUser.role === "ADMIN";
+
+  if (!isCustomer && !isTechnician && !isAdmin) {
+    throw new Error("You are not authorized to view this booking");
+  }
+
+
+  return booking;
+};
+
+
+
 export const bookingsService ={
     createBookingIntoDB,
-    getBookingWithUser
+    getBookingWithUser,
+    getBookingDetails,
 }

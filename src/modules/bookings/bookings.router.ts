@@ -9,4 +9,6 @@ router.post("/",auth(userRole.ADMIN,userRole.USER,userRole.TECHNICIAN),bookingsC
 
 router.get("/",auth(userRole.ADMIN,userRole.USER,userRole.TECHNICIAN),bookingsController.getBookingsWithUsers);
 
+router.get("/:id",auth(userRole.ADMIN,userRole.USER,userRole.TECHNICIAN),bookingsController.getBookingDetails)
+
 export const bookingsRouter = router;

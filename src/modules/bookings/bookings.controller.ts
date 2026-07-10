@@ -56,7 +56,35 @@ const getBookingsWithUsers = async(req:Request,res:Response)=>{
 }
 
 
+const getBookingDetails =async(req:Request,res:Response)=>{
+    try {
+
+        const bookingId = req.params?.id as string;
+
+        const authUser = req.user
+
+        const bookingDetails = await bookingsService.getBookingDetails(bookingId,authUser);
+
+        sendResponse(res,{
+            success : true,
+            statusCode : HttpStatus.OK,
+            message :"Your booking details retrieved successfully",
+            data : bookingDetails
+        })
+        
+    } catch (error : any) {
+        sendResponse(res,{
+            success : false,
+            statusCode : HttpStatus.INTERNAL_SERVER_ERROR,
+            message : error.message,
+            data : [],
+            error : {error}
+        })
+    }
+}
+
 export const bookingsController = {
     createBooking,
-    getBookingsWithUsers
+    getBookingsWithUsers,
+    getBookingDetails
 }
