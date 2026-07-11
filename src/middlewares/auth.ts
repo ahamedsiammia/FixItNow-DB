@@ -34,7 +34,7 @@ export const auth = (...requierdRole: userRole[]) => {
     }
     const verifyToken = await varifyToken(token,config.jwt_access_secret);
 
-    console.log(verifyToken);
+    // console.log(verifyToken);
 
     if (!verifyToken.success && verifyToken.data !== undefined) {
         throw new Error(verifyToken.message);

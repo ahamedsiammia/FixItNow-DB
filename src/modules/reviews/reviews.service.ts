@@ -4,7 +4,7 @@ import { IReview } from "./reviews.interface";
 const createReviewsIntoDB = async(payload : IReview,customerId : string)=>{
 
     const {bookingId,technicianId,rating,comment} = payload;
-    console.log(payload,customerId);
+    
     if(!bookingId && !technicianId && !rating){
         throw new Error("please porvied bookingId && technicianId && rating")
     }

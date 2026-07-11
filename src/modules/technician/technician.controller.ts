@@ -8,7 +8,7 @@ const createTechnician =async(req:Request,res:Response)=>{
     try {
 
         const payload = req.body;
-console.log(payload);
+
         const userId = req.user?.id
 
         if(!userId){

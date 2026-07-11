@@ -1,12 +1,12 @@
-import { Bookings, User } from "../../../generated/prisma/client"
+import { Bookings, Payments, User } from "../../../generated/prisma/client"
 import axios from "axios"
 import config from "../../config";
+import { prisma } from "../../lib/prisma";
 
 const initiatePayment =async(booking :Bookings,user : User)=>{
 
     const tranId = `TRAN_ID_S_${Date.now()}`
 
-    console.log("store id",config.ssl_comarz_store_id)
 
     const paymentData = {
 "store_id":config.ssl_comarz_store_id,
@@ -14,9 +14,9 @@ const initiatePayment =async(booking :Bookings,user : User)=>{
 "total_amount":booking.totalAmount,
 "currency":"BDT",
 "tran_id":tranId,
-"success_url":"http://yoursite.com/success.php",
-"fail_url":"http://yoursite.com/fail.php",
-"cancel_url":"http://yoursite.com/cancel.php",
+"success_url":`${config.app_url}/api/payment?bookingId=${booking.id}&tranId=${tranId}&status=success`,
+"fail_url":`${config.app_url}/api/payment?bookingId=${booking.id}&tranId=${tranId}&status=fail`,
+"cancel_url":`${config.app_url}/api/payment?bookingId=${booking.id}&tranId=${tranId}&status=cancel`,
 "cus_name":user.name,
 "cus_email":user.email,
 "cus_add1":user.address,
@@ -29,7 +29,7 @@ const initiatePayment =async(booking :Bookings,user : User)=>{
 "cus_fax":"01711111111"
     };
 
-     console.log("FINAL DATA BEING SENT:", paymentData)
+     
 
     const response = await axios.post("https://sandbox.sslcommerz.com/gwprocess/v4/api.php",paymentData,{
         headers : {
@@ -38,8 +38,32 @@ const initiatePayment =async(booking :Bookings,user : User)=>{
     })
 
     const data = await response.data;
+    console.log("initeate payment",data);
+    const payment  = {
+        bookingId : booking.id as string,
+        transactionId : tranId as string,
+        amount : booking.totalAmount as number,
+        provider : "null" as string,
+        
+    }
 
-    console.log(data);
+    const checkExistPayment = await prisma.payments.findUnique({
+        where : {
+            bookingId : booking.id
+        }
+    });
+
+    console.log(checkExistPayment);
+
+    if(checkExistPayment){
+        return data
+    }
+
+    await prisma.payments.create({
+        data : {
+            ...payment
+        }
+    })
 
     return data 
 };

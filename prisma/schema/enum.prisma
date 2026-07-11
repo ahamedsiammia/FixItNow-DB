@@ -12,7 +12,6 @@ enum userStatus {
 enum BookingStatus {
   REQUESTED
   ACCEPTED
-  PAID
   IN_PROGRESS
   COMPLETED
   CANCELLED
@@ -20,7 +19,7 @@ enum BookingStatus {
 
 enum PaymentStatus {
   PENDING
-  COMPLETED
+  PAID
   FAILED
   CANCELLED
 }

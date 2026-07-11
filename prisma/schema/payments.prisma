@@ -8,5 +8,5 @@ model Payments {
   status        PaymentStatus @default(PENDING)
   paidAt        DateTime      @default(now())
   createdAt     DateTime      @default(now())
-  meta          Json
+  meta          Json?
 }

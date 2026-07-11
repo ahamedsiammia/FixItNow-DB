@@ -15,7 +15,7 @@ const createPayment =async(req:Request,res:Response)=>{
             success : true,
             statusCode : HttpStatus.OK,
             message : "Payment checkout retrived successfully",
-            data : payment
+            data : payment.checkout.GatewayPageURL
         })
         
     } catch (error : any) {
@@ -30,6 +30,28 @@ const createPayment =async(req:Request,res:Response)=>{
 };
 
 
+const verifyPayment =async(req:Request,res:Response)=>{
+    try {
+
+        const {bookingId,tranId,status}=req.query;
+        const payload = req.body;
+
+        // console.log("form verify payment ",req.body,bookingId,tranId,status);
+
+        const response = await paymentService.verifyPayment(bookingId as string,tranId as string,status as string,payload)
+        
+    } catch (error : any) {
+        sendResponse(res,{
+            success : false,
+            statusCode : HttpStatus.INTERNAL_SERVER_ERROR,
+            message : error.message,
+            data : [],
+            error : {error}
+        })
+    }
+}
+
 export const paymentController ={
-    createPayment
+    createPayment,
+    verifyPayment
 }

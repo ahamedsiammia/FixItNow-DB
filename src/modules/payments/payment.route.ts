@@ -5,7 +5,10 @@ import { paymentController } from "./payment.controller";
 
 const router = Router();
 
+router.post("/",paymentController.verifyPayment)
+
 router.post("/:id",auth(userRole.ADMIN,userRole.USER,userRole.TECHNICIAN),paymentController.createPayment)
+
 
 
 export const paymentRouter = router

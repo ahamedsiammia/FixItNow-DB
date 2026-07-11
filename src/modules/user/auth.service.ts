@@ -11,7 +11,7 @@ const createUserIntoDB = async(payload : IUser)=>{
 
     const {name,email,password,address,phone,profileImage,role,status}= payload;
 
-    console.log(payload);
+    
 
     const isUserExit = await prisma.user.findUnique({
         where:{email}

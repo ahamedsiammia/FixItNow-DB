@@ -27,7 +27,7 @@ export const varifyToken = async(token:string,secret:string)=>{
     try {
         const varifyedToken = await Jwt.verify(token,secret)
 
-        console.log("this is verfyed token",varifyedToken);
+        
         
         return {
             success:true,
