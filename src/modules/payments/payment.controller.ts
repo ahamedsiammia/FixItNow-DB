@@ -43,7 +43,9 @@ const verifyPayment =async(req:Request,res:Response)=>{
 
         if(response === "success"){
             return res.redirect("https://cosmic-pegasus-53f0d7.netlify.app")
-        }
+        }else if(response === "fail"){
+            return res.redirect("https://www.memberstack.com/webflow/failed-payment-page?utm_source=Pinterest&utm_medium=organic")
+        }else if(response === "cancel") res.redirect("https://www.youtube.com")
         
     } catch (error : any) {
         sendResponse(res,{

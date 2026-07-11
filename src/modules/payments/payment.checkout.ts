@@ -53,7 +53,7 @@ const initiatePayment =async(booking :Bookings,user : User)=>{
         }
     });
 
-    console.log(checkExistPayment);
+    
 
     if(checkExistPayment){
         return data

@@ -39,7 +39,7 @@ const createPayment =async(bookingId:string,userId :string)=>{
     
     const { customer, ...bookingData } = bookingInfo!;
     
-    console.log("this is booking info",bookingInfo);
+    
     const checkout = await initiatePayment(bookingData,user)
 
     return {checkout}
@@ -58,7 +58,9 @@ const verifyPayment =async(bookingId : string,tranId: string,status:string,paylo
         }
     })
 
-    await prisma.bookings.update({
+
+    if(response.data.status === "VALID"){
+        await prisma.bookings.update({
         where : {
             id : bookingId
         },
@@ -78,6 +80,28 @@ const verifyPayment =async(bookingId : string,tranId: string,status:string,paylo
             meta : payload 
         }
     })
+    }else if(response.data.status === "FAILED"){
+    //             await prisma.bookings.update({
+    //     where : {
+    //         id : bookingId
+    //     },
+    //     data :{
+    //         stats : "COMPLETED"
+    //     }
+    // })
+
+    await prisma.payments.update({
+        where : {
+            bookingId
+        },
+        data : {
+            status : "FAILED",
+            provider : response.data.card_issuer,
+            paidAt : new Date(),
+            meta : payload 
+        }
+    })
+    }
 
     return status
 }
