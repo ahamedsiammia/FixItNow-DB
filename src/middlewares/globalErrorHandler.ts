@@ -1,7 +1,7 @@
 // src/middlewares/globalErrorHandler.ts
 import { NextFunction, Request, Response } from "express";
-import { Prisma } from "../../generated/prisma/client"; // আপনার path অনুযায়ী adjust করুন
-import HttpStatus from "http-status";
+import { Prisma } from "../../generated/prisma/client";
+import  HttpStatus  from "http-status";
 
 const globalErrorHandler = (
   error: any,
@@ -9,7 +9,7 @@ const globalErrorHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  let statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
+  let statusCode:number = HttpStatus.INTERNAL_SERVER_ERROR;
   let message = "Something went wrong!";
 
   // ================= Prisma Known Request Errors =================
