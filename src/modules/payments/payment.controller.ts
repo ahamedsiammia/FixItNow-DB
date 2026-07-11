@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { sendResponse } from "../../utils/sendResponse";
 import  HttpStatus  from "http-status";
 import { paymentService } from "./payment.service";
+import { paginationI } from "../technician/technician.interface";
 
 const createPayment =async(req:Request,res:Response)=>{
     try {
@@ -51,7 +52,69 @@ const verifyPayment =async(req:Request,res:Response)=>{
     }
 }
 
+// login user payment
+
+const getMyPayments = async (req: Request, res: Response) => {
+  try {
+      const userId = req.user?.id as string;
+
+  const options: paginationI = {
+    page: req.query.page ? Number(req.query.page) : undefined,
+    limit: req.query.limit ? Number(req.query.limit) : undefined,
+    sortBy: req.query.sortBy as string,
+    sortOrder: req.query.sortOrder as "asc" | "desc",
+  };
+
+  const result = await paymentService.getMyPaymentsFromDB(userId, options);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: HttpStatus.OK,
+    message: "Payment history retrieved successfully",
+    data: result,
+  });
+  } catch (error : any) {
+        sendResponse(res,{
+            success : false,
+            statusCode : HttpStatus.INTERNAL_SERVER_ERROR,
+            message : error.message,
+            data : [],
+            error : {error}
+        })
+    }
+};
+
+
+const getPaymentDetails = async (req: Request, res: Response) => {
+try {
+      const  id  = req.params?.id as string;
+  const authUser = req.user!;
+
+  const result = await paymentService.getPaymentDetailsFromDB(id, {
+    id: authUser.id,
+    role: authUser.role,
+  });
+
+  sendResponse(res, {
+    success: true,
+    statusCode: HttpStatus.OK,
+    message: "Payment details retrieved successfully",
+    data: result,
+  });
+}  catch (error : any) {
+        sendResponse(res,{
+            success : false,
+            statusCode : HttpStatus.INTERNAL_SERVER_ERROR,
+            message : error.message,
+            data : [],
+            error : {error}
+        })
+    }
+};
+
 export const paymentController ={
     createPayment,
-    verifyPayment
+    verifyPayment,
+    getMyPayments,
+    getPaymentDetails
 }

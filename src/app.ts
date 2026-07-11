@@ -11,6 +11,7 @@ import { categoriesRoute } from "./modules/categories/categories.route";
 import { servicesRouter } from "./modules/services/services.route";
 import { bookingsRouter } from "./modules/bookings/bookings.router";
 import { paymentRouter } from "./modules/payments/payment.route";
+import globalErrorHandler from "./middlewares/globalErrorHandler";
 
 const app : Application =  express();
 
@@ -49,5 +50,8 @@ app.get("/",(req:Request,res:Response)=>{
         builder : "Siam Ahamed"
     })
 })
+
+app.use(globalErrorHandler);
+
 
 export default app;

@@ -3,6 +3,8 @@ import { User } from "../../../generated/prisma/client";
 import { prisma } from "../../lib/prisma"
 import initiatePayment from "./payment.checkout";
 import config from "../../config";
+import { calculatePagination } from "../../utils/pagination";
+import { paginationI } from "../technician/technician.interface";
 
 const createPayment =async(bookingId:string,userId :string)=>{
     const bookingInfo  = await prisma.bookings.findUnique({
@@ -80,7 +82,77 @@ const verifyPayment =async(bookingId : string,tranId: string,status:string,paylo
     console.log("payment korar por",response);
 }
 
+// login use payment 
+
+const getMyPaymentsFromDB = async (userId: string, options: paginationI) => {
+  const { page, limit, skip, sortBy, sortOrder } = calculatePagination(options);
+
+  const payments = await prisma.payments.findMany({
+    where: {
+      booking: {
+        customerId: userId,   
+      },
+
+    },
+    omit:{
+        meta : true
+      },
+    skip,
+    take: limit,
+    orderBy: { [sortBy]: sortOrder },
+  });
+
+  const total = await prisma.payments.count({
+    where: { booking: { customerId: userId } },
+  });
+
+  return {
+    meta: { page, limit, total, totalPage: Math.ceil(total / limit) },
+    data: payments,
+  };
+};
+
+const getPaymentDetailsFromDB = async (
+  paymentId: string,
+  authUser: { id: string; role: string }
+) => {
+  const payment = await prisma.payments.findUnique({
+    where: { id: paymentId },
+    include: {
+      booking: {
+        include: {
+          customer: { select: { id: true, name: true, email: true } },
+          technician: {
+            include: {
+              user: { select: { id: true, name: true, email: true } },
+            },
+          },
+        },
+      },
+    },
+    omit:{
+        meta : true
+    }
+  });
+
+  if (!payment) {
+    throw new Error("Payment not found");
+  }
+
+  const isCustomer = payment.booking.customerId === authUser.id;
+  const isTechnician = payment.booking.technician?.userId === authUser.id;
+  const isAdmin = authUser.role === "ADMIN";
+
+  if (!isCustomer && !isTechnician && !isAdmin) {
+    throw new Error("You are not authorized to view this payment");
+  }
+
+  return payment;
+};
+
 export const paymentService ={
     createPayment,
-    verifyPayment
+    verifyPayment,
+    getMyPaymentsFromDB,
+    getPaymentDetailsFromDB
 }
