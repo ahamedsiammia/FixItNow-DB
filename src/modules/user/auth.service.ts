@@ -11,8 +11,18 @@ const createUserIntoDB = async(payload : IUser)=>{
 
     const {name,email,password,address,phone,profileImage,role,status}= payload;
 
-    
+    const missingFields: string[] = [];
 
+if (!name) missingFields.push("name");
+if (!email) missingFields.push("email");
+if (!password) missingFields.push("password");
+if (!address) missingFields.push("address");
+if (!phone) missingFields.push("phone");
+
+if (missingFields.length > 0) {
+  throw new Error(`Please provide: ${missingFields.join(", ")}`);
+}
+        
     const isUserExit = await prisma.user.findUnique({
         where:{email}
     });
