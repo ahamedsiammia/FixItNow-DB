@@ -63,7 +63,6 @@ const verifyPayment =async(req:Request,res:Response)=>{
 const getMyPayments = async (req: Request, res: Response) => {
   try {
       const userId = req.user?.id as string;
-
   const options: paginationI = {
     page: req.query.page ? Number(req.query.page) : undefined,
     limit: req.query.limit ? Number(req.query.limit) : undefined,

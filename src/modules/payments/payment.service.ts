@@ -110,13 +110,12 @@ const verifyPayment =async(bookingId : string,tranId: string,status:string,paylo
 
 const getMyPaymentsFromDB = async (userId: string, options: paginationI) => {
   const { page, limit, skip, sortBy, sortOrder } = calculatePagination(options);
-
+console.log(userId);
   const payments = await prisma.payments.findMany({
     where: {
       booking: {
         customerId: userId,   
       },
-
     },
     omit:{
         meta : true
