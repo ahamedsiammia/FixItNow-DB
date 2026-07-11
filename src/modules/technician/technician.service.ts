@@ -275,7 +275,7 @@ const updateBookingStatusIntoDB = async (payload: BookingStatusI,bookingId: stri
 
   // check booking technician id === login kora technician id true hoi naki 
   if (booking.technicianId !== technician.id) {
-    throw new Error("You are not authorized to update this booking");
+    throw new Error("You are not Technician in this booking. so you not update this booking");
   }
 
   // update status

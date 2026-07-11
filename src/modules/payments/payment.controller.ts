@@ -40,6 +40,10 @@ const verifyPayment =async(req:Request,res:Response)=>{
         // console.log("form verify payment ",req.body,bookingId,tranId,status);
 
         const response = await paymentService.verifyPayment(bookingId as string,tranId as string,status as string,payload)
+
+        if(response === "success"){
+            return res.redirect("https://cosmic-pegasus-53f0d7.netlify.app")
+        }
         
     } catch (error : any) {
         sendResponse(res,{

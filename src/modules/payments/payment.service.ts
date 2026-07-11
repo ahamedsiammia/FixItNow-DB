@@ -79,7 +79,7 @@ const verifyPayment =async(bookingId : string,tranId: string,status:string,paylo
         }
     })
 
-    console.log("payment korar por",response);
+    return status
 }
 
 // login use payment 
